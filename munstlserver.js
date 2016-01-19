@@ -2,10 +2,12 @@ var http = require("http");
 var Concentrate = require("concentrate");
 var stlStreamer = require("./stlstreamer");
 
+var count = 0;
+
 http.createServer(function(req,res){
+  console.time(count);
   var c = Concentrate();
   c.on("end", function() {
-    console.log("ended");
     res.end();
   }).on("readable", function() {
     c.pipe(res);
@@ -24,6 +26,8 @@ http.createServer(function(req,res){
 
   stlStreamer.stream(elevationData,c,function(){
     c.flush().end();
+    console.timeEnd(count);
+    count++;
   });
 
 }).listen(9000);
