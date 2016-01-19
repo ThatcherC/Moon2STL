@@ -27,9 +27,9 @@ function streamSTL(valueObject,stream,callback){
   var a = {'x':0,'y':0,'z':0};
   var b = {'x':xlen-1,'y':0,'z':0};
   var c = {'x':xlen-1,'y':ylen-1,'z':0};
-  writeTriangle(a,b,c,stream);
-  var b = {'x':0,'y':ylen-1,'z':0};
   writeTriangle(b,a,c,stream);
+  var b = {'x':0,'y':ylen-1,'z':0};
+  writeTriangle(a,b,c,stream);
 
   callback();
 }
