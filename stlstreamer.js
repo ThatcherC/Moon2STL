@@ -10,34 +10,39 @@ function streamSTL(valueObject,stream,callback){
       var b = {'x':x+1,'y':y,'z':valueObject.values[x+1+y*ylen]};
       var c = {'x':x,'y':y+1,'z':valueObject.values[x+(y+1)*ylen]};
 
-      var N = normalOf(a,b,c);
-      //Normal
-      stream.floatle(N.x).floatle(N.y).floatle(N.z);
-      //Triangles
-      stream.floatle(a.x).floatle(a.y).floatle(a.z);
-      stream.floatle(b.x).floatle(b.y).floatle(b.z);
-      stream.floatle(c.x).floatle(c.y).floatle(c.z);
-      stream.uint8(0).uint8(0);
+      writeTriangle(a,b,c,stream);
 
       //Second triangle
       a = {'x':x+1,'y':y+1,'z':valueObject.values[x+1+(y+1)*ylen]};
-      N = normalOf(b,a,c);
-      //Normal
-      stream.floatle(N.x).floatle(N.y).floatle(N.z);
-      //Triangles
-      stream.floatle(b.x).floatle(b.y).floatle(b.z);
-      stream.floatle(a.x).floatle(a.y).floatle(a.z);
-      stream.floatle(c.x).floatle(c.y).floatle(c.z);
-      stream.uint8(0).uint8(0);
+      writeTriangle(b,a,c,stream);
+
 
       stream.flush();
     }
+
+
   }
 
   //bottom surface
-
+  var a = {'x':0,'y':0,'z':0};
+  var b = {'x':width,'y':0,'z':0};
+  var c = {'x':width,'y':height,'z':0};
+  writeTriangle(a,b,c,stream);
+  var b = {'x':0,'y':width,'z':0};
+  riteTriangle(b,a,c,stream);
 
   callback();
+}
+
+function writeTriangle(a,b,c,stream){
+  var N = normalOf(a,b,c);
+  //Normal
+  stream.floatle(N.x).floatle(N.y).floatle(N.z);
+  //Triangles
+  stream.floatle(a.x).floatle(a.y).floatle(a.z);
+  stream.floatle(b.x).floatle(b.y).floatle(b.z);
+  stream.floatle(c.x).floatle(c.y).floatle(c.z);
+  stream.uint8(0).uint8(0);
 }
 
 module.exports = {
