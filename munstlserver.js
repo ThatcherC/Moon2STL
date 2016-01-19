@@ -1,10 +1,15 @@
-var http = require("http");
+var express = require('express');
 var Concentrate = require("concentrate");
+var GeoTIFF = require("geotiff");
+var fs = require("fs");
+
 var stlStreamer = require("./stlstreamer");
+
+var app = express();
 
 var count = 0;
 
-http.createServer(function(req,res){
+app.get("/stl",function(req,res){
   console.time(count);
   var c = Concentrate();
   c.on("end", function() {
@@ -13,7 +18,7 @@ http.createServer(function(req,res){
     c.pipe(res);
   });
 
-  res.setHeader('Content-disposition', 'attachment; filename=' + req.url.slice(1));
+  res.setHeader('Content-disposition', 'attachment; filename=' + req.query.name);
   res.setHeader('Content-type', "application/sla");
   res.writeHead(200);
 
@@ -39,5 +44,6 @@ http.createServer(function(req,res){
     console.timeEnd(count);
     count++;
   });
+});
 
-}).listen(9000);
+app.listen(9000);
