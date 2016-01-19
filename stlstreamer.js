@@ -36,11 +36,12 @@ function streamSTL(valueObject,stream,callback){
   //bottom surface
 
 
-
   callback();
 }
 
-function addPoints
+module.exports = {
+  stream: streamSTL;
+};
 
 function normalOf(p1, p2, p3){
 	var u,v,r;
