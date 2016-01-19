@@ -7,6 +7,18 @@ var stlStreamer = require("./stlstreamer");
 
 var app = express();
 
+var path = "ulcn2005_lpo_dd0.tif";
+var moontiff;
+var image;
+fs.readFile(path, function(err, data) {
+  if (err) throw err;
+  moontiff = GeoTIFF.parse(data);
+  image = moontiff.getImage();
+  //console.log(moontiff);
+  //console.log(moontiff.getImage().readRasters([1000,1000,1100,1010]));
+});
+
+
 var count = 0;
 
 app.get("/stl",function(req,res){
@@ -22,10 +34,12 @@ app.get("/stl",function(req,res){
   res.setHeader('Content-type', "application/sla");
   res.writeHead(200);
 
-  var width = 5;
-  var height = 5;
+  var rasterWindow = [req.query.l,req.query.t,req.query.r,req.query.b];
 
-  elevationData = {xlen:width,ylen:height,values:[0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,2]};
+  var width = rasterWindow[2]-rasterWindow[0];
+  var height = rasterWindow[3]-rasterWindow[1];;
+
+  elevationData = {xlen:width, ylen:height, scale:1/100, values: image.readRasters(rasterWindow)[0]};
 
   var triangleCount = (width-1)*(height-1)*2;	//number of facets in a void-free surface
 	//triangleCount += 4*(width-1);	//triangle counts for the walls of the model

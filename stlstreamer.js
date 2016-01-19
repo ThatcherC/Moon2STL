@@ -1,20 +1,30 @@
 
-//valueObject: {xlen,ylen,{values}}
+//valueObject: {xlen,ylen,scale,{values}}
 function streamSTL(valueObject,stream,callback){
   var xlen = valueObject.xlen;
   var ylen = valueObject.ylen;
+  var scale = valueObject.scale;
+
+  var minimum = 100000;
+  for(var b = 0; b<valueObject.values.length;b++){
+    if(valueObject.values[b]<minimum){
+      minimum=valueObject.values[b];
+    }
+  }
+  console.log("Minimum: "+minimum);
+
   //topsurface
   for(var x = 0; x<valueObject.xlen-1; x++){
     for(var y =0; y<valueObject.ylen-1; y++){
       //First triangle
-      var a = {'x':x,'y':y,'z':valueObject.values[x+y*ylen]};
-      var b = {'x':x+1,'y':y,'z':valueObject.values[x+1+y*ylen]};
-      var c = {'x':x,'y':y+1,'z':valueObject.values[x+(y+1)*ylen]};
+      var a = {'x':x,'y':y,'z':  (valueObject.values[x+y*ylen] - minimum) *scale};
+      var b = {'x':x+1,'y':y,'z':(valueObject.values[x+1+y*ylen] - minimum) *scale};
+      var c = {'x':x,'y':y+1,'z':(valueObject.values[x+(y+1)*ylen] - minimum) *scale};
 
       writeTriangle(a,b,c,stream);
 
       //Second triangle
-      a = {'x':x+1,'y':y+1,'z':valueObject.values[x+1+(y+1)*ylen]};
+      a = {'x':x+1,'y':y+1,'z':  (valueObject.values[x+1+(y+1)*ylen] - minimum) *scale};
       writeTriangle(b,a,c,stream);
 
       stream.flush();
