@@ -15,14 +15,15 @@ http.createServer(function(req,res){
   res.setHeader('Content-type', "application/sla");
   res.writeHead(200);
 
+  elevationData = {xlen:5,ylen:5,values:[0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1,0,0,0,1,1]};
+
   //Header
   c.string('tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt','utf8');
   //Triangle count
-  c.uint32(1);
+  c.uint32(32);
 
-  printTriangle(c);
-  //End tag
-  c.uint8(0).uint8(0);
-  c.flush().end();
+  stlStreamer.stream(elevationData,c,function(){
+    c.flush().end();
+  });
 
 }).listen(9000);
