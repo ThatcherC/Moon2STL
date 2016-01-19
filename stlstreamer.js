@@ -17,14 +17,14 @@ function streamSTL(valueObject,stream,callback){
   for(var x = 0; x<valueObject.xlen-1; x++){
     for(var y =0; y<valueObject.ylen-1; y++){
       //First triangle
-      var a = {'x':x,'y':y,'z':  (valueObject.values[x+y*ylen] - minimum) *scale};
-      var b = {'x':x+1,'y':y,'z':(valueObject.values[x+1+y*ylen] - minimum) *scale};
-      var c = {'x':x,'y':y+1,'z':(valueObject.values[x+(y+1)*ylen] - minimum) *scale};
+      var a = {'x':x,'y':y,'z':  (valueObject.values[x+y*xlen] - minimum) *scale};
+      var b = {'x':x+1,'y':y,'z':(valueObject.values[x+1+y*xlen] - minimum) *scale};
+      var c = {'x':x,'y':y+1,'z':(valueObject.values[x+(y+1)*xlen] - minimum) *scale};
 
       writeTriangle(a,b,c,stream);
 
       //Second triangle
-      a = {'x':x+1,'y':y+1,'z':  (valueObject.values[x+1+(y+1)*ylen] - minimum) *scale};
+      a = {'x':x+1,'y':y+1,'z':  (valueObject.values[x+1+(y+1)*xlen] - minimum) *scale};
       writeTriangle(b,a,c,stream);
 
       stream.flush();
