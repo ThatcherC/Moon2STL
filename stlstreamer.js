@@ -16,7 +16,6 @@ function streamSTL(valueObject,stream,callback){
       a = {'x':x+1,'y':y+1,'z':valueObject.values[x+1+(y+1)*ylen]};
       writeTriangle(b,a,c,stream);
 
-
       stream.flush();
     }
 
