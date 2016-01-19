@@ -25,14 +25,19 @@ http.createServer(function(req,res){
   c.string('tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt','utf8');
   //Triangle count
   c.uint32(1);
-  //Normal
-  c.floatle(1).floatle(1).floatle(1);
-  //Triangles
-  c.floatle(1).floatle(0).floatle(0);
-  c.floatle(0).floatle(1).floatle(0);
-  c.floatle(0).floatle(0).floatle(1);
+
+  printTriangle(c);
   //End tag
   c.uint8(0).uint8(0);
   c.flush().end();
 
 }).listen(9000);
+
+function printTriangle(stream){
+  //Normal
+  stream.floatle(1).floatle(1).floatle(1);
+  //Triangles
+  stream.floatle(1).floatle(0).floatle(0);
+  stream.floatle(0).floatle(1).floatle(0);
+  stream.floatle(0).floatle(0).floatle(1);
+}
