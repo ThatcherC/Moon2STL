@@ -1,14 +1,14 @@
 
 //valueObject: {xlen,ylen,{values}}
 function streamSTL(valueObject,stream,callback){
-  var xlen = valueObject.xlen;
+  var ylen = valueObject.ylen;
   //topsurface
   for(var x = 0; x<valueObject.xlen-1; x++){
     for(var y =0; y<valueObject.ylen-1; y++){
       //First triangle
-      var a = {'x':x,'y':y,'z':valueObject.values[x*xlen+y]};
-      var b = {'x':x+1,'y':y,'z':valueObject.values[(x+1)*xlen+y]};
-      var c = {'x':x,'y':y+1,'z':valueObject.values[x*xlen+y+1]};
+      var a = {'x':x,'y':y,'z':valueObject.values[x+y*ylen]};
+      var b = {'x':x+1,'y':y,'z':valueObject.values[x+1+y*ylen]};
+      var c = {'x':x,'y':y+1,'z':valueObject.values[x+(y+1)*ylen]};
 
       var N = normalOf(a,b,c);
       //Normal
@@ -20,7 +20,7 @@ function streamSTL(valueObject,stream,callback){
       stream.uint8(0).uint8(0);
 
       //Second triangle
-      a = {'x':x+1,'y':y+1,'z':valueObject.values[(x+1)*xlen+y+1]};
+      a = {'x':x+1,'y':y+1,'z':valueObject.values[x+1+(y+1)*ylen]};
       N = normalOf(b,a,c);
       //Normal
       stream.floatle(N.x).floatle(N.y).floatle(N.z);
