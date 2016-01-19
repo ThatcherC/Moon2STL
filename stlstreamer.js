@@ -1,6 +1,7 @@
 
 //valueObject: {xlen,ylen,{values}}
 function streamSTL(valueObject,stream,callback){
+  var xlen = valueObject.xlen;
   var ylen = valueObject.ylen;
   //topsurface
   for(var x = 0; x<valueObject.xlen-1; x++){
@@ -24,11 +25,11 @@ function streamSTL(valueObject,stream,callback){
 
   //bottom surface
   var a = {'x':0,'y':0,'z':0};
-  var b = {'x':width,'y':0,'z':0};
-  var c = {'x':width,'y':height,'z':0};
+  var b = {'x':xlen-1,'y':0,'z':0};
+  var c = {'x':xlen-1,'y':ylen-1,'z':0};
   writeTriangle(a,b,c,stream);
-  var b = {'x':0,'y':width,'z':0};
-  riteTriangle(b,a,c,stream);
+  var b = {'x':0,'y':ylen-1,'z':0};
+  writeTriangle(b,a,c,stream);
 
   callback();
 }
