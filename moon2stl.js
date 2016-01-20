@@ -22,8 +22,8 @@ function initMap() {
             (bound - normalizedCoord.y - 1) + '.jpg';
     },
     tileSize: new google.maps.Size(256, 256),
-    maxZoom: 9,
-    minZoom: 0,
+    maxZoom: 6,
+    minZoom: 2,
     radius: 1738000,
     name: 'Moon'
   });
@@ -51,6 +51,11 @@ function initMap() {
     geodesic: true
   });
   rectangle.setDraggable(true);
+
+  google.maps.event.addListener(rectangle, 'dragend', function() {
+    console.log('Drag ended');
+    console.log(rectangle.getPath().getAt(1).lat());
+  });
 }
 
 // Normalizes the coords that tiles repeat across the x axis (horizontally)
