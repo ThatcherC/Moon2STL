@@ -14,7 +14,8 @@ fs.readFile(path, function(err, data) {
   if (err) throw err;
   moontiff = GeoTIFF.parse(data);
   image = moontiff.getImage();
-  //console.log(moontiff);
+  console.log(moontiff.fileDirectories[0][0]);
+  console.log(moontiff.fileDirectories[0][1]);
   //console.log(moontiff.getImage().readRasters([1000,1000,1100,1010]));
 });
 
