@@ -28,8 +28,29 @@ function initMap() {
     name: 'Moon'
   });
 
+
+
   map.mapTypes.set('moon', moonMapType);
   map.setMapTypeId('moon');
+
+  var rectCoords = [
+    {lat: -5, lng: 5},
+    {lat: -5, lng: -5},
+    {lat: 5, lng: -5},
+    {lat: 5, lng: 5}
+  ];
+
+  rectangle = new google.maps.Polygon({
+    strokeColor: '#FF0000',
+    path: rectCoords,
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35,
+    map: map,
+    geodesic: true
+  });
+  rectangle.setDraggable(true);
 }
 
 // Normalizes the coords that tiles repeat across the x axis (horizontally)
