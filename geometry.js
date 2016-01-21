@@ -12,6 +12,14 @@ function vectorSubtract(v1,v2){
   return {x:v1.x-v2.x, y:v1.y-v2.y, z:v1.z-v2.z};
 }
 
+function vectorMul(v1,s){
+  return {x:v1.x*s, y:v1.y*s, z:v1.z*s};
+}
+
+function vectorAdd(v1,v2){
+  return {x:v1.x+v2.x, y:v1.y+v2.y, z:v1.z+v2.z};
+}
+
 function cartesianToSpherical(c){
   var lat = Math.atan(c.z/Math.sqrt(c.x*c.x+c.y*c.y));
   var lng = Math.atan2(c.y,c.x);
