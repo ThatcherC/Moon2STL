@@ -72,13 +72,17 @@ function initMap() {
 
   google.maps.event.addListener(rectangle, 'dragend', function() {
     console.log('Drag ended');
-    //console.log(rectangle.getPath().getAt(0).lat()+", "+rectangle.getPath().getAt(0).lng());
-    //console.log(cartesianToSpherical(sphericalToCartesian({lat:rectangle.getPath().getAt(0).lat(),lng:rectangle.getPath().getAt(0).lng()})));
 
-    var se = {lat:rectangle.getPath().getAt(0).lat(),lng:rectangle.getPath().getAt(0).lng()};
-    var sw = {lat:rectangle.getPath().getAt(1).lat(),lng:rectangle.getPath().getAt(1).lng()};
-    var nw = {lat:rectangle.getPath().getAt(2).lat(),lng:rectangle.getPath().getAt(2).lng()};
+    console.log(document.getElementsByName("swlat")[0].value);
 
+    document.getElementsByName("swlat")[0].value = rectangle.getPath().getAt(1).lat();
+    document.getElementsByName("swlng")[0].value = rectangle.getPath().getAt(1).lng();
+    document.getElementsByName("selat")[0].value = rectangle.getPath().getAt(0).lat();
+    document.getElementsByName("selng")[0].value = rectangle.getPath().getAt(0).lng();
+    document.getElementsByName("nwlat")[0].value = rectangle.getPath().getAt(2).lat();
+    document.getElementsByName("nwlng")[0].value = rectangle.getPath().getAt(2).lng();
+
+    console.log(document.getElementsByName("swlat")[0].value);
     //SUBMIT TO SERVER
 
   });
