@@ -25,3 +25,11 @@ function cartesianToSpherical(c){
   var lng = Math.atan2(c.y,c.x);
   return {lat:lat*r2d, lng:lng*r2d};
 }
+
+module.exports = {
+  sphericalToCartesian: sphericalToCartesian,
+  vectorSubtract: vectorSubtract,
+  vectorMul: vectorMul,
+  vectorAdd: vectorAdd,
+  cartesianToSpherical: cartesianToSpherical
+};
