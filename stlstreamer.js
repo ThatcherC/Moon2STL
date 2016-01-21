@@ -13,9 +13,9 @@ function streamSTL(valueObject,stream,callback){
   }
 
   //Header
-  c.string('tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt','utf8');
+  stream.string('tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt','utf8');
   //Triangle count
-  c.uint32(getTriangleCount(xlen,ylen));
+  stream.uint32(getTriangleCount(xlen,ylen));
 
   //topsurface
   for(var x = 0; x<valueObject.xlen-1; x++){
@@ -66,7 +66,7 @@ function getTriangleCount(width,height){
   //triangleCount += 4*(width-1);	//triangle counts for the walls of the model
   //triangleCount += 4*(height-1);
   triangleCount += 2; 			//base triangles
-  return triangles;
+  return triangleCount;
 }
 
 function normalOf(p1, p2, p3){
