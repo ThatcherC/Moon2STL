@@ -11,7 +11,11 @@ function streamSTL(valueObject,stream,callback){
       minimum=valueObject.values[b];
     }
   }
-  console.log("Minimum: "+minimum);
+
+  //Header
+  c.string('tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt','utf8');
+  //Triangle count
+  c.uint32(getTriangleCount(xlen,ylen));
 
   //topsurface
   for(var x = 0; x<valueObject.xlen-1; x++){
@@ -29,8 +33,6 @@ function streamSTL(valueObject,stream,callback){
 
       stream.flush();
     }
-
-
   }
 
   //bottom surface
@@ -58,6 +60,14 @@ function writeTriangle(a,b,c,stream){
 module.exports = {
   stream: streamSTL
 };
+
+function getTriangleCount(width,height){
+  var triangleCount = (width-1)*(height-1)*2;	//number of facets in a void-free surface
+  //triangleCount += 4*(width-1);	//triangle counts for the walls of the model
+  //triangleCount += 4*(height-1);
+  triangleCount += 2; 			//base triangles
+  return triangles;
+}
 
 function normalOf(p1, p2, p3){
 	var u = {x:0,y:0,z:0};
