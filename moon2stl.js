@@ -34,10 +34,10 @@ function initMap() {
   map.setMapTypeId('moon');
 
   var rectCoords = [
-    {lat: -5, lng: 5},
-    {lat: -5, lng: -5},
-    {lat: 5, lng: -5},
-    {lat: 5, lng: 5}
+    {lat: -2, lng: 2},
+    {lat: -2, lng: -2},
+    {lat: 2, lng: -2},
+    {lat: 2, lng: 2}
   ];
 
   rectangle = new google.maps.Polygon({
@@ -54,7 +54,8 @@ function initMap() {
 
   google.maps.event.addListener(rectangle, 'dragend', function() {
     console.log('Drag ended');
-    console.log(rectangle.getPath().getAt(1).lat());
+    //console.log(rectangle.getPath().getAt(0).lat()+", "+rectangle.getPath().getAt(0).lng());
+    //console.log(cartesianToSpherical(sphericalToCartesian({lat:rectangle.getPath().getAt(0).lat(),lng:rectangle.getPath().getAt(0).lng()})));
   });
 }
 
