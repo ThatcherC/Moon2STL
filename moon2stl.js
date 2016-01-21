@@ -1,14 +1,8 @@
 //Strongly based on https://developers.google.com/maps/documentation/javascript/examples/maptype-image
 
-var marker;
-var myLatLng = {lat: -2, lng: -2};
-var int;
-
-//make local when not needed
-var map;
 
 function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
+  var map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 0, lng: 0},
     zoom: 1,
     streetViewControl: false,
@@ -68,17 +62,7 @@ function initMap() {
     var sw = {lat:rectangle.getPath().getAt(1).lat(),lng:rectangle.getPath().getAt(1).lng()};
     var nw = {lat:rectangle.getPath().getAt(2).lat(),lng:rectangle.getPath().getAt(2).lng()};
 
-    myLatLng.lng = sw.lng;
-    myLatLng.lat = sw.lat;
-
-    var delta = vectorSubtract(sphericalToCartesian(se),sphericalToCartesian(sw));
-    var inc = vectorMul(delta,1/40);
-    console.log(delta);
-
-    clearInterval(int);
-    int = setInterval(function(){
-      advanceMarker(inc)
-    },500);
+    //SUBMIT TO SERVER
 
   });
 }
@@ -104,17 +88,4 @@ function getNormalizedCoord(coord, zoom) {
   }
 
   return {x: x, y: y};
-}
-
-//test function
-var t = 0;
-function advanceMarker(increment){
-  marker = new google.maps.Marker({
-    position: cartesianToSpherical(vectorAdd(sphericalToCartesian(myLatLng), vectorMul(increment,t))),
-    map: map,
-    title: 'Hello World!'
-  });
-  console.log(cartesianToSpherical(vectorAdd(sphericalToCartesian(myLatLng), vectorMul(increment,t))));
-  t++;
-  t=t%40;
 }
