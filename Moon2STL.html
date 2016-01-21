@@ -9,6 +9,7 @@
       }
       #map {
         height: 100%;
+        width: 80%;
       }
     </style>
   <script src="moon2stl.js"></script>
@@ -16,6 +17,19 @@
 </head>
 <body>
   <div  width=800 id="map"></div>
+
+  <form action="http://localhost:9000/stl" method="post">
+    <input type=hidden name="swlat" value=-2 />
+    <input type=hidden name="swlng" value=-2 />
+    <input type=hidden name="selat" value=-2 />
+    <input type=hidden name="selng" value= 2 />
+    <input type=hidden name="nwlat" value= 2 />
+    <input type=hidden name="nwlng" value=-2 />
+    <input name="filename" value="moon.stl" />
+    <input hidden name="width" value = 40 />
+    <input hidden name="height" value = 40 />
+    <input type="submit" value="Submit">
+  </form>
 
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=***REMOVED***&callback=initMap">
