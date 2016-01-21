@@ -11,7 +11,7 @@ function initMap() {
     }
   });
 
-  var moonMapType = new google.maps.ImageMapType({
+  var moonVisible = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) {
         var normalizedCoord = getNormalizedCoord(coord, zoom);
         if (!normalizedCoord) {
@@ -26,13 +26,30 @@ function initMap() {
     maxZoom: 6,
     minZoom: 2,
     radius: 1738000,
-    name: 'Moon'
+    name: 'Visible'
   });
 
+  var moonElevation = new google.maps.ImageMapType({
+    getTileUrl: function(coord, zoom) {
+        var normalizedCoord = getNormalizedCoord(coord, zoom);
+        if (!normalizedCoord) {
+          return null;
+        }
+        var bound = Math.pow(2, zoom);
+        return '//mw1.google.com/mw-planetary/lunar/lunarmaps_v1/terrain' +
+            '/' + zoom + '/' + normalizedCoord.x + '/' +
+            (bound - normalizedCoord.y - 1) + '.jpg';
+    },
+    tileSize: new google.maps.Size(256, 256),
+    maxZoom: 6,
+    minZoom: 2,
+    radius: 1738000,
+    name: 'Elevation'
+  });
 
-
-  map.mapTypes.set('moon', moonMapType);
-  map.setMapTypeId('moon');
+  map.mapTypes.set('moon', moonVisible);
+  map.mapTypes.set('elev', moonElevation);
+  map.setMapTypeId('elev');
 
   var rectCoords = [
     {lat: -2, lng: 2},
