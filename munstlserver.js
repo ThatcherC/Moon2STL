@@ -4,6 +4,7 @@ var GeoTIFF = require("geotiff");
 var fs = require("fs");
 
 var stlStreamer = require("./stlstreamer");
+var stlStreamer = require("./geometry");
 
 var app = express();
 
