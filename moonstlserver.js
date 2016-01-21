@@ -43,18 +43,6 @@ app.get("/stl",function(req,res){
 
   elevationData = {xlen:width, ylen:height, scale:1/100, values: image.readRasters(rasterWindow)[0]};
 
-  var triangleCount = (width-1)*(height-1)*2;	//number of facets in a void-free surface
-	//triangleCount += 4*(width-1);	//triangle counts for the walls of the model
-	//triangleCount += 4*(height-1);
-	triangleCount += 2; 			//base triangles
-
-
-
-  //Header
-  c.string('tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt','utf8');
-  //Triangle count
-  c.uint32(triangleCount);
-
   stlStreamer.stream(elevationData,c,function(){
     c.flush().end();
     console.timeEnd(count);
