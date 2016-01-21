@@ -5,6 +5,7 @@ var GeoTIFF = require("geotiff");
 var fs = require("fs");
 
 var stlStreamer = require("./stlstreamer");
+var elevation = require("./elevationgetter");
 
 var app = express();
 app.use(bodyParser.json()); // support json encoded bodies
@@ -33,7 +34,7 @@ app.post("/stl",function(req,res){
     c.pipe(res);
   });
 
-  res.setHeader('Content-disposition', 'attachment; filename=' + req.body.name);
+  res.setHeader('Content-disposition', 'attachment; filename=' + req.body.filename);
   res.setHeader('Content-type', "application/sla");
   res.writeHead(200);
 
@@ -47,15 +48,16 @@ app.post("/stl",function(req,res){
   console.log(nw);
   console.log(se);
 
+  elevation.getElevations(se,sw,nw,image,c,function(stream,elevations){
+    elevationData = {xlen:width, ylen:height, scale:1/500, values: elevations};
 
-  /*
-  elevationData = {xlen:width, ylen:height, scale:1/100, values: image.readRasters(rasterWindow)[0]};
+    stlStreamer.stream(elevationData,stream,function(){
+      c.flush().end();
+      console.timeEnd(count);
+      count++;
+    });
+  });
 
-  stlStreamer.stream(elevationData,c,function(){
-    c.flush().end();
-    console.timeEnd(count);
-    count++;
-  });*/
 });
 
 app.listen(9000);
