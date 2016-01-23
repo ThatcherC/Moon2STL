@@ -1,8 +1,6 @@
 var g = require("./geometry");
 
-function getElevations(se,sw,nw,image,stream,callback){
-  var width = 40;
-  var height = 40;
+function getElevations(se,sw,nw,image,width,height,stream,callback){
 
   var incx = g.vectorMul(g.vectorSubtract(g.sphericalToCartesian(se),g.sphericalToCartesian(sw)),1/width);
   var incy = g.vectorMul(g.vectorSubtract(g.sphericalToCartesian(nw),g.sphericalToCartesian(sw)),1/height);
