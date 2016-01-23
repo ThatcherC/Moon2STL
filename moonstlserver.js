@@ -44,7 +44,9 @@ app.post("/stl",function(req,res){
   var se = {lat:Number(req.body.selat), lng:Number(req.body.selng)};
   var nw = {lat:Number(req.body.nwlat), lng:Number(req.body.nwlng)};
 
-  elevation.getElevations(se,sw,nw,image,width,height,c,function(stream,elevations){
+  var modelOptions = {sw:sw, se:se, nw:nw, width:width, height:height, scale:req.body.scale};
+
+  elevation.getElevations(modelOptions,image,c,function(stream,elevations){
     elevationData = {xlen:width, ylen:height, scale:1/1895, values: elevations};
 
     stlStreamer.stream(elevationData,stream,function(){

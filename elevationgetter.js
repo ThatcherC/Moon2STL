@@ -1,15 +1,19 @@
 var g = require("./geometry");
 
-function getElevations(se,sw,nw,image,width,height,stream,callback){
+function getElevations(options,image,stream,callback){
+  var se = options.se;
+  var sw = options.sw;
+  var nw = options.nw;
 
-  var incx = g.vectorMul(g.vectorSubtract(g.sphericalToCartesian(se),g.sphericalToCartesian(sw)),1/width);
-  var incy = g.vectorMul(g.vectorSubtract(g.sphericalToCartesian(nw),g.sphericalToCartesian(sw)),1/height);
+  //division by width and height is not correct, but works for now
+  var incx = g.vectorMul(g.vectorSubtract(g.sphericalToCartesian(se),g.sphericalToCartesian(sw)),1/options.width);
+  var incy = g.vectorMul(g.vectorSubtract(g.sphericalToCartesian(nw),g.sphericalToCartesian(sw)),1/options.height);
   var start = g.sphericalToCartesian(sw);
 
-  var elevations = new Int16Array(width*height);
+  var elevations = new Int16Array(options.width*options.height);
 
-  for(var y = 0; y <height; y++){
-    for(var x = 0; x < width; x++){
+  for(var y = 0; y <options.height; y++){
+    for(var x = 0; x < options.width; x++){
       var position = g.cartesianToSpherical(g.vectorAdd(start, g.vectorAdd(g.vectorMul(incx,x),g.vectorMul(incy,y))));
 
       //geotiff has resolution of 16px per degree
@@ -19,7 +23,8 @@ function getElevations(se,sw,nw,image,width,height,stream,callback){
       position.lng = Math.floor((position.lng+180)*16);
 
       //console.log(image.readRasters([position.lng,position.lat,position.lng+1,position.lat+1])[0][0]);
-      elevations[y*width+x] = image.readRasters([position.lng,position.lat,position.lng+1,position.lat+1])[0][0];
+      elevations[y*options.width+x] = image.readRasters([position.lng,position.lat,position.lng+1,position.lat+1])[0][0];
+      elevations[y*options.width+x] *= options.scale;
     }
   }
 
