@@ -44,10 +44,6 @@ app.post("/stl",function(req,res){
   var se = {lat:Number(req.body.selat), lng:Number(req.body.selng)};
   var nw = {lat:Number(req.body.nwlat), lng:Number(req.body.nwlng)};
 
-  console.log(sw);
-  console.log(nw);
-  console.log(se);
-
   elevation.getElevations(se,sw,nw,image,width,height,c,function(stream,elevations){
     elevationData = {xlen:width, ylen:height, scale:1/1895, values: elevations};
 
