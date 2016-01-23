@@ -26,7 +26,7 @@ fs.readFile(path, function(err, data) {
 var count = 0;
 
 app.post("/stl",function(req,res){
-  //console.time(count);
+  console.time(count);
   var c = Concentrate();
   c.on("end", function() {
     res.end();
@@ -48,8 +48,8 @@ app.post("/stl",function(req,res){
   console.log(nw);
   console.log(se);
 
-  elevation.getElevations(se,sw,nw,image,c,function(stream,elevations){
-    elevationData = {xlen:width, ylen:height, scale:1/500, values: elevations};
+  elevation.getElevations(se,sw,nw,image,width,height,c,function(stream,elevations){
+    elevationData = {xlen:width, ylen:height, scale:1/1895, values: elevations};
 
     stlStreamer.stream(elevationData,stream,function(){
       c.flush().end();
