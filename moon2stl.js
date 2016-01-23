@@ -7,8 +7,9 @@ function initMap() {
     zoom: 1,
     streetViewControl: false,
     mapTypeControlOptions: {
-      mapTypeIds: ['moon']
-    }
+      mapTypeIds: ['elev','moon']
+    },
+    mapTypeId: 'moon'
   });
 
   var moonVisible = new google.maps.ImageMapType({
