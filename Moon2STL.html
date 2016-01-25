@@ -1,36 +1,49 @@
 <html>
 <head>
   <title>Moon2STL: Print the Moon</title>
+  <link rel="stylesheet" href="//jthatch.com/bootstrap-custom.css">
   <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
       #map {
-        height: 100%;
-        width: 80%;
+        height: 80%;
+        width: 100%;
+        border-radius: 4px;
+        border: 1px solid transparent;
       }
     </style>
   <script src="moon2stl.js"></script>
   <script src="geometry.js"></script>
 </head>
 <body>
-  <div  width=800 id="map"></div>
+  <div class="container">
+    <div class="page-header">
+      <h1>Moon2STL <small>Subtext for header</small></h1>
+    </div>
+    <div class="row"></div>
+    <div class="row">
+      <div class="col-lg-8">
+        <div  width=800 id="map"></div>
+      </div>
+      <div class="col-lg-4">
+        <div class="well">
+          <form action="http://localhost:9000/stl" method="post">
+            <input name="filename" value="moon.stl" />
+            <input type="range" min="0.5" max=4 step=.5 name="scale" value="1" />
 
-  <form action="http://localhost:9000/stl" method="post">
-    <input type=hidden name="swlat" value=-2 />
-    <input type=hidden name="swlng" value=-2 />
-    <input type=hidden name="selat" value=-2 />
-    <input type=hidden name="selng" value= 2 />
-    <input type=hidden name="nwlat" value= 2 />
-    <input type=hidden name="nwlng" value=-2 />
-    <input name="filename" value="moon.stl" />
-    <input type="range" min="0.5" max=4 step=.5 name="scale" value="1" />
-    <input hidden name="width" value = 64 />
-    <input hidden name="height" value = 64 />
-    <input type="submit" value="Submit">
-  </form>
+            <input type=hidden name="swlat" value=-2 />
+            <input type=hidden name="swlng" value=-2 />
+            <input type=hidden name="selat" value=-2 />
+            <input type=hidden name="selng" value= 2 />
+            <input type=hidden name="nwlat" value= 2 />
+            <input type=hidden name="nwlng" value=-2 />
+            <input hidden name="width" value = 64 />
+            <input hidden name="height" value = 64 />
+            
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=***REMOVED***&callback=initMap">
