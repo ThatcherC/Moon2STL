@@ -17,18 +17,18 @@
   <div class="container">
     <div class="row">
       <div class="page-header">
-        <div class="col-lg-8">
+        <div class="col-md-8">
           <h1>Moon2STL <small>Print the Moon</small></h1>
         </div>
-        <div class="col-lg-2">
+        <div class="col-md-2">
           asdfs
         </div>
       </div></div>
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-md-8">
         <div  width=800 id="map"></div>
       </div>
-      <div class="col-lg-4">
+      <div class="col-md-4">
         <div class="well">
           <h3>Controls</h3>
           <form action="http://localhost:9000/stl" method="post">
@@ -43,11 +43,11 @@
             <table>
               <tr>
                 <td><label>File name:</label></td>
-                <td colspan="2"><i><input name="filename" value="moon.stl"/></i></td>
+                <td colspan="2"><i><input name="filename" value="moon.stl" style="width:10em"//></i></td>
               </td>
               <tr>
                 <td><label>Vertical Scale: </label></td>
-                <td><input id="vscale" type="range" min="0.5" max=4 step=.5 name="scale" value="1" /></td>
+                <td><input id="vscale" type="range" min="0.5" max=4 step=.5 name="scale" value="1"></td>
                 <td id="vscalel" style="text-align:right;width:40px">1</td>
               </td>
               <tr>
@@ -57,10 +57,14 @@
               </td>
             </table></br>
             <center>
-              <div style="border-top: 1px solid gray; width:80%"></div></br>
-              <button type="submit" class="btn btn-default">Download</button>
+              <button type="submit" class="btn btn-default">Download</button></br></br>
+              <div style="border-top: 1px solid gray; width:80%"></div>
             </center>
           </form>
+          <h3>Place Marker</h3>
+          <table>
+            <tr><td>Latitude: <input id="markerlat" style="width:4em"/></td><td>Longitude: <input id="markerlng" style="width:4em"/></td></tr>
+          </table>
         </div>
         <div class="well">
           <h3>Instructions</h3>
