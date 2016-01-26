@@ -16,7 +16,7 @@
 <body>
   <div class="container">
     <div class="page-header">
-      <h1>Moon2STL <small>Subtext for header</small></h1>
+      <h1>Moon2STL <small>Print the Moon</small></h1>
     </div>
     <div class="row"></div>
     <div class="row">
@@ -25,10 +25,8 @@
       </div>
       <div class="col-lg-4">
         <div class="well">
+          <h3>Controls</h3>
           <form action="http://localhost:9000/stl" method="post">
-            <input name="filename" value="moon.stl" />
-            <input type="range" min="0.5" max=4 step=.5 name="scale" value="1" />
-
             <input type=hidden name="swlat" value=-2 />
             <input type=hidden name="swlng" value=-2 />
             <input type=hidden name="selat" value=-2 />
@@ -37,9 +35,30 @@
             <input type=hidden name="nwlng" value=-2 />
             <input hidden name="width" value = 64 />
             <input hidden name="height" value = 64 />
-            
-            <input type="submit" value="Submit">
+            <table>
+              <tr>
+                <td><label>File name:</label></td>
+                <td colspan="2"><i><input name="filename" value="moon.stl"/></i></td>
+              </td>
+              <tr>
+                <td><label>Vertical Scale: </label></td>
+                <td><input id="vscale" type="range" min="0.5" max=4 step=.5 name="scale" value="1" /></td>
+                <td id="vscalel" style="text-align:right;width:40px">1</td>
+              </td>
+              <tr>
+                <td><label>Box Size:</label></td>
+                <td><input id="size" type="range" min=1 max=4 step=1 name="scale" value="2" /></td>
+                <td id="sizel" style="text-align:right;width:40px">2</td>
+              </td>
+            </table></br>
+            <center>
+              <div style="border-top: 1px solid gray; width:80%"></div></br>
+              <button type="submit" class="btn btn-default">Download</button>
+            </center>
           </form>
+        </div>
+        <div class="well">
+          <h3>Instructions</h3>
         </div>
       </div>
     </div>
