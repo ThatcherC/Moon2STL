@@ -1,5 +1,12 @@
 //Strongly based on https://developers.google.com/maps/documentation/javascript/examples/maptype-image
 
+var rectangle;
+
+//center of the box in Cartesian coordinates
+var center = sphericalToCartesian(0,0);
+//Cartesian vectors pointing from the center of the box the NE and NW corners
+var nevec = vectorSubtract( s2c({lat:2,lng:2}),  s2c({lat:0,lng:0}) );
+var nwvec = vectorSubtract( s2c({lat:2,lng:-2}), s2c({lat:0,lng:0}) );
 
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -81,10 +88,15 @@ function initMap() {
     document.getElementsByName("nwlat")[0].value = rectangle.getPath().getAt(2).lat();
     document.getElementsByName("nwlng")[0].value = rectangle.getPath().getAt(2).lng();
 
+    //update center
+    // nw - nwvec
+    var nwpoint = {lat:rectangle.getPath().getAt(2).lat(), lng:rectangle.getPath().getAt(2).lng()};
+    center = vectorSubtract(s2c( nwpoint ),nwvec);
   });
 
   initControls();
 }
+
 
 function initControls(){
   var boxSize = document.getElementById("size");
@@ -94,6 +106,26 @@ function initControls(){
 
   boxSize.onchange = function(){
     boxSizeLabel.innerHTML = boxSize.value;
+
+    var half = boxSize.value/2;
+
+    var newBounds = [{lat: -half, lng:  half},
+                     {lat: -half, lng: -half},
+                     {lat:  half, lng: -half},
+                     {lat:  half, lng:  half} ];
+    /*
+    This system of centers and vectors would work but will require some rotation vectors
+    //set new vector sizes
+    nevec = vectorSubtract( s2c({lat:half,lng:half}),  s2c({lat:0,lng:0}) );
+    nwvec = vectorSubtract( s2c({lat:half,lng:-half}), s2c({lat:0,lng:0}) );
+
+    newBounds[0] = c2s( vectorSubtract( center , nwvec ) );        //se
+    newBounds[1] = c2s( vectorSubtract( center , nevec ) );        //sw
+    newBounds[2] = c2s( vectorAdd( center , nwvec ) );             //nw
+    newBounds[3] = c2s( vectorAdd( center , nevec ) );             //ne
+    */
+    console.log(newBounds);
+    rectangle.setPath(newBounds);
   };
 
   scale.onchange = function(){
