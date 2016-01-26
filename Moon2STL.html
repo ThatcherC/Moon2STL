@@ -9,6 +9,10 @@
         border-radius: 4px;
         border: 1px solid transparent;
       }
+
+      h3 {
+        margin-top: 5;
+      }
     </style>
   <script src="geometry.js"></script>
   <script src="moon2stl.js"></script>
@@ -66,11 +70,17 @@
             <tr><td>Latitude: <input id="markerlat" style="width:4em"/></td><td>Longitude: <input id="markerlng" style="width:4em"/></td></tr>
           </table></br>
           <center>
-            <button onclick="placeMarker()" class="btn btn-default">Download</button>
+            <button onclick="placeMarker()" class="btn btn-default">Place</button>
           </center>
         </div>
         <div class="well">
           <h3>Instructions</h3>
+          <ul>
+            <li>Set the dimensions of the box using the scale slider</li>
+            <li>Change the vertical scale for a more interesting-looking model</li>
+            <li>Place a marker on certain location</li>
+            <li>Switch between visible and height views in the top left</li>
+          </ul>
         </div>
       </div>
     </div>
