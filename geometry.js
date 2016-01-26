@@ -26,6 +26,9 @@ function cartesianToSpherical(c){
   return {lat:lat*r2d, lng:lng*r2d};
 }
 
+var c2s = cartesianToSpherical;
+var s2c = sphericalToCartesian;
+
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
   module.exports = {
     sphericalToCartesian: sphericalToCartesian,
