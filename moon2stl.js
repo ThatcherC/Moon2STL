@@ -82,6 +82,23 @@ function initMap() {
     document.getElementsByName("nwlng")[0].value = rectangle.getPath().getAt(2).lng();
 
   });
+
+  initControls();
+}
+
+function initControls(){
+  var boxSize = document.getElementById("size");
+  var boxSizeLabel = document.getElementById("sizel");
+  var scale = document.getElementById("vscale");
+  var scaleLabel = document.getElementById("vscalel");
+
+  boxSize.onchange = function(){
+    boxSizeLabel.innerHTML = boxSize.value;
+  };
+
+  scale.onchange = function(){
+    scaleLabel.innerHTML = scale.value;
+  };
 }
 
 // Normalizes the coords that tiles repeat across the x axis (horizontally)
