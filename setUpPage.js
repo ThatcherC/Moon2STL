@@ -3,6 +3,9 @@
 
 var replace = require("replace");
 const readline = require('readline');
+const fs = require('fs');
+
+fs.createReadStream('Moon2STL_proto.html').pipe(fs.createWriteStream('Moon2STL.html'));
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -12,8 +15,6 @@ const rl = readline.createInterface({
 rl.question('Enter a valid Google Maps API key: ', function(apikey){
   // TODO: Log the answer in a database
   console.log('API Key: ', apikey);
-
-  fs.createReadStream('Moon2STL_proto.html').pipe(fs.createWriteStream('Moon2STL.html'));
 
   replace({
     regex: "YOURGMAPSAPIKEY",
