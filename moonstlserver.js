@@ -25,8 +25,9 @@ fs.readFile(path, function(err, data) {
 
 var count = 0;
 
-app.post("/stl",function(req,res){
+app.post("/Moon2STL/stl",function(req,res){
   console.time(count);
+  
   var c = Concentrate();
   c.on("end", function() {
     res.end();
