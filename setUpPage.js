@@ -13,6 +13,8 @@ rl.question('Enter a valid Google Maps API key: ', function(apikey){
   // TODO: Log the answer in a database
   console.log('API Key: ', apikey);
 
+  fs.createReadStream('Moon2STL_proto.html').pipe(fs.createWriteStream('Moon2STL.html'));
+
   replace({
     regex: "YOURGMAPSAPIKEY",
     replacement: apikey,
