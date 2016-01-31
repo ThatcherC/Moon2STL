@@ -3,7 +3,7 @@ Produces STL files from GeoTIFF elevation maps
 
 ####To-Do List
 - [ ] Put walls on the STLs
-- [ ] Actually place markers
+- [x] Actually place markers
 - [ ] Add description top right
 - [ ] Correct vertical scale when horizontal scale changes
 - [ ] Remove striations from models - probably with interpolation
