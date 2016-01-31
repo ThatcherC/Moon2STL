@@ -1,6 +1,7 @@
 //Strongly based on https://developers.google.com/maps/documentation/javascript/examples/maptype-image
 
 var rectangle;
+var map;
 
 //center of the box in Cartesian coordinates
 var center = sphericalToCartesian(0,0);
@@ -9,7 +10,7 @@ var nevec = vectorSubtract( s2c({lat:2,lng:2}),  s2c({lat:0,lng:0}) );
 var nwvec = vectorSubtract( s2c({lat:2,lng:-2}), s2c({lat:0,lng:0}) );
 
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: 0, lng: 0},
     zoom: 1,
     streetViewControl: false,
@@ -131,6 +132,16 @@ function initControls(){
   scale.onchange = function(){
     scaleLabel.innerHTML = scale.value;
   };
+}
+
+function placeMarker(){
+  var mLat = document.getElementById('markerlat').value;
+  var mLng = document.getElementById('markerlng').value;
+  var marker = new google.maps.Marker({
+    position: {lat: parseFloat(mLat), lng: parseFloat(mLng)},
+    map: map,
+    title: mLat+", "+mLng
+  });
 }
 
 // Normalizes the coords that tiles repeat across the x axis (horizontally)
