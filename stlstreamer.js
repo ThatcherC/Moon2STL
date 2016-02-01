@@ -33,6 +33,42 @@ function streamSTL(valueObject,stream,callback){
 
       stream.flush();
     }
+
+    //make walls along the x direcion
+    var a = {'x':x,'y':0,'z':  0};
+    var b = {'x':x+1,'y':0,'z':0};
+    var c = {'x':x,'y':0,'z':(valueObject.values[x] - minimum) *scale};
+    writeTriangle(a,b,c,stream);
+    a = {'x':x+1,'y':0,'z':  (valueObject.values[x+1] - minimum) *scale};
+    writeTriangle(b,a,c,stream);
+
+    a = {'x':x,  'y':ylen-1, 'z':0};
+    b = {'x':x+1,'y':ylen-1, 'z':0};
+    c = {'x':x,  'y':ylen-1, 'z':(valueObject.values[x+ylen*(xlen-1)] - minimum) *scale};
+    writeTriangle(b,a,c,stream);
+    a = {'x':x+1,'y':ylen-1, 'z':(valueObject.values[x+1+ylen*(xlen-1)] - minimum) *scale};
+    writeTriangle(a,b,c,stream);
+    stream.flush();
+  }
+
+  for(var y=0; y<ylen-1; y++){
+    //make walls along the x direcion
+    var a = {'x':0,'y':y,'z':  0};
+    var b = {'x':0,'y':y+1,'z':0};
+    var c = {'x':0,'y':y,'z':(valueObject.values[y*xlen] - minimum) *scale};
+    writeTriangle(b,a,c,stream);
+    //Had a realllllly interesting bug here for awhile because it turns out that
+    //JavaScript yields "10"*3 = 30, but "10"+3 = '103'
+    a = {'x':0,'y':y+1,'z':  (valueObject.values[(y+1)*xlen] - minimum) *scale};
+    writeTriangle(a,b,c,stream);
+
+    a = {'x':xlen-1,  'y':y, 'z':0};
+    b = {'x':xlen-1,'y':y+1, 'z':0};
+    c = {'x':xlen-1,  'y':y, 'z':(valueObject.values[(y+1)*xlen-1] - minimum) *scale};
+    writeTriangle(a,b,c,stream);
+    a = {'x':xlen-1,'y':y+1,'z':  (valueObject.values[(y+2)*xlen-1] - minimum) *scale};
+    writeTriangle(b,a,c,stream);
+    stream.flush();
   }
 
   //bottom surface
@@ -63,8 +99,8 @@ module.exports = {
 
 function getTriangleCount(width,height){
   var triangleCount = (width-1)*(height-1)*2;	//number of facets in a void-free surface
-  //triangleCount += 4*(width-1);	//triangle counts for the walls of the model
-  //triangleCount += 4*(height-1);
+  triangleCount += 4*(width-1);	//triangle counts for the walls of the model
+  triangleCount += 4*(height-1);
   triangleCount += 2; 			//base triangles
   return triangleCount;
 }
