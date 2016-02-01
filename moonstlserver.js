@@ -27,7 +27,11 @@ var count = 0;
 
 app.post("/Moon2STL/stl",function(req,res){
   console.time(count);
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 8199f08403c36408104788a2192535eb043586e8
   var c = Concentrate();
   c.on("end", function() {
     res.end();
@@ -39,11 +43,16 @@ app.post("/Moon2STL/stl",function(req,res){
   res.setHeader('Content-type', "application/sla");
   res.writeHead(200);
 
+<<<<<<< HEAD
   //Had a realllllly interesting bug here for awhile because it turns out that
   //JavaScript yields "10"*3 = 30, but "10"+3 = '103'
   var width = Number(req.body.width);
   var height = Number(req.body.height);
 
+=======
+  var width = req.body.width;
+  var height = req.body.height;
+>>>>>>> 8199f08403c36408104788a2192535eb043586e8
   var sw = {lat:Number(req.body.swlat), lng:Number(req.body.swlng)};
   var se = {lat:Number(req.body.selat), lng:Number(req.body.selng)};
   var nw = {lat:Number(req.body.nwlat), lng:Number(req.body.nwlng)};
