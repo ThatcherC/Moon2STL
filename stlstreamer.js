@@ -33,7 +33,6 @@ function streamSTL(valueObject,stream,callback){
 
       stream.flush();
     }
-<<<<<<< HEAD
 
     //make walls along the x direcion
     var a = {'x':x,'y':0,'z':  0};
@@ -70,8 +69,6 @@ function streamSTL(valueObject,stream,callback){
     a = {'x':xlen-1,'y':y+1,'z':  (valueObject.values[(y+2)*xlen-1] - minimum) *scale};
     writeTriangle(b,a,c,stream);
     stream.flush();
-=======
->>>>>>> 8199f08403c36408104788a2192535eb043586e8
   }
 
   //bottom surface
@@ -102,13 +99,8 @@ module.exports = {
 
 function getTriangleCount(width,height){
   var triangleCount = (width-1)*(height-1)*2;	//number of facets in a void-free surface
-<<<<<<< HEAD
   triangleCount += 4*(width-1);	//triangle counts for the walls of the model
   triangleCount += 4*(height-1);
-=======
-  //triangleCount += 4*(width-1);	//triangle counts for the walls of the model
-  //triangleCount += 4*(height-1);
->>>>>>> 8199f08403c36408104788a2192535eb043586e8
   triangleCount += 2; 			//base triangles
   return triangleCount;
 }
