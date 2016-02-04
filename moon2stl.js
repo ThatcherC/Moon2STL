@@ -51,7 +51,7 @@ function initMap() {
     },
     tileSize: new google.maps.Size(256, 256),
     maxZoom: 6,
-    minZoom: 2,
+    minZoom: 1,
     radius: 1738000,
     name: 'Elevation'
   });
