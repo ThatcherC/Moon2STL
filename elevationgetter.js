@@ -23,18 +23,16 @@ function getElevations(options,image,stream,callback){
       var lng = (position.lng+180)*16
 
       //Get some values - double check this in GeoTIFF docs
-      var samples = image.readRasters([lng,lat,lng+2,lat+2]);
+      var samples = image.readRasters([Math.floor(lng),Math.floor(lat),Math.ceil(lng)+1,Math.ceil(lat)+1]);
+      
       //Time for bilinear interpolation!
       //Do the x-direction interpolations first:
-      var x1 = (Math.ceil(lng)-lng)*samples[0][0] + (lng-Math.floor(lng))*samples[1][0];
-      var x2 = (Math.ceil(lng)-lng)*samples[0][1] + (lng-Math.floor(lng))*samples[1][1];
+      var x1 = (Math.ceil(lng)-lng)*samples[0][0] + (lng-Math.floor(lng))*samples[0][1];
+      var x2 = (Math.ceil(lng)-lng)*samples[0][2] + (lng-Math.floor(lng))*samples[0][3];
       
       //Interpolate those values in the y direction
       elevations[y*options.width+x] = (Math.ceil(lat)-lat)*x1 + (lat-Math.floor(lat))*x2;
       elevations[y*options.width+x] *= options.scale;
-
-      //position.lat = Math.floor();
-      //position.lng = Math.floor((position.lng+180)*16);
     }
   }
 
