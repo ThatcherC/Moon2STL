@@ -104,9 +104,13 @@ function initControls(){
   var boxSizeLabel = document.getElementById("sizel");
   var scale = document.getElementById("vscale");
   var scaleLabel = document.getElementById("vscalel");
+  var boxWidth = document.getElementsByName("width")[0];
+  var boxHeight = document.getElementsByName("height")[0];
 
   boxSize.onchange = function(){
     boxSizeLabel.innerHTML = boxSize.value;
+    boxWidth = boxSize.value*16;
+    boxHeight = boxSize.value*16;
 
     var half = boxSize.value/2;
 
