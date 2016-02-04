@@ -19,12 +19,22 @@ function getElevations(options,image,stream,callback){
       //geotiff has resolution of 16px per degree
       //this info can be procedurally gathered from geotiff in the future
       //Using floor is just a quick way to test this - interpolation would be better
-      position.lat = Math.floor((90-position.lat)*16);
-      position.lng = Math.floor((position.lng+180)*16);
+      var lat = (90-position.lat)*16;
+      var lng = (position.lng+180)*16
 
-      //console.log(image.readRasters([position.lng,position.lat,position.lng+1,position.lat+1])[0][0]);
-      elevations[y*options.width+x] = image.readRasters([position.lng,position.lat,position.lng+1,position.lat+1])[0][0];
+      //Get some values - double check this in GeoTIFF docs
+      var samples = image.readRasters([lng,lat,lng+2,lat+2]);
+      //Time for bilinear interpolation!
+      //Do the x-direction interpolations first:
+      var x1 = (Math.ceil(lng)-lng)*samples[0][0] + (lng-Math.floor(lng))*samples[1][0];
+      var x2 = (Math.ceil(lng)-lng)*samples[0][1] + (lng-Math.floor(lng))*samples[1][1];
+      
+      //Interpolate those values in the y direction
+      elevations[y*options.width+x] = (Math.ceil(lat)-lat)*x1 + (lat-Math.floor(lat))*x2;
       elevations[y*options.width+x] *= options.scale;
+
+      //position.lat = Math.floor();
+      //position.lng = Math.floor((position.lng+180)*16);
     }
   }
 
