@@ -59,6 +59,7 @@ function initMap() {
   map.mapTypes.set('moon', moonVisible);
   map.mapTypes.set('elev', moonElevation);
   map.setMapTypeId('elev');
+  map.setZoom(2);
 
   var rectCoords = [
     {lat: -2, lng: 2},
