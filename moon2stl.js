@@ -109,8 +109,8 @@ function initControls(){
 
   boxSize.onchange = function(){
     boxSizeLabel.innerHTML = boxSize.value;
-    boxWidth = boxSize.value*16;
-    boxHeight = boxSize.value*16;
+    boxWidth.value = boxSize.value*16;
+    boxHeight.value = boxSize.value*16;
 
     var half = boxSize.value/2;
 
