@@ -32,6 +32,9 @@ function getElevations(options,image,stream,callback){
       
       //Interpolate those values in the y direction
       elevations[y*options.width+x] = (Math.ceil(lat)-lat)*x1 + (lat-Math.floor(lat))*x2;
+      if(elevations[y*options.width+x]<-10000){
+        elevations[y*options.width+x]+=32768;
+      }
       elevations[y*options.width+x] *= options.scale;
     }
   }

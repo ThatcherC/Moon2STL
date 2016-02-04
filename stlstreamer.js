@@ -11,7 +11,6 @@ function streamSTL(valueObject,stream,callback){
       minimum=valueObject.values[b];
     }
   }
-
   //Header
   stream.string('tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt','utf8');
   //Triangle count
