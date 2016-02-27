@@ -39,5 +39,5 @@ LatLng Vector::toSpherical(void){
 }
 
 void Vector::print(){
-  std::cout << "<" << x << ", " << y << ", " << z << ">\n";
+  std::clog << "<" << x << ", " << y << ", " << z << ">\n";
 }

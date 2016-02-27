@@ -21,5 +21,5 @@ Vector LatLng::toCartesian(void){
 }
 
 void LatLng::print(void){
-  std::cout << "[" << lat << ", " << lng << "]\n";
+  std::clog << "[" << lat << ", " << lng << "]\n";
 }
