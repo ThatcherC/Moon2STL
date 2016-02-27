@@ -33,7 +33,7 @@ Vector Vector::multiply(float s){
 }
 
 LatLng Vector::toSpherical(void){
-  float lat = atan(z/sqrt(x*x+y*y));
+  float lat = atan2(z,sqrt(x*x+y*y));
   float lng = atan2(y,x);
   return LatLng(lat*r2d, lng*r2d);
 }
