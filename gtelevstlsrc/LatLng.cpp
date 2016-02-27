@@ -10,7 +10,7 @@ const float d2r = PI/180;
 
 LatLng::LatLng(float _lat, float _lng){
   lat = _lat;
-  lat = _lng;
+  lng = _lng;
 }
 
 Vector LatLng::toCartesian(void){
@@ -18,4 +18,8 @@ Vector LatLng::toCartesian(void){
   float y = cos(lat*d2r)*sin(lng*d2r);
   float z = sin(lat*d2r);
   return Vector(x,y,z);
+}
+
+void LatLng::print(void){
+  std::cout << "[" << lat << ", " << lng << "]\n";
 }
