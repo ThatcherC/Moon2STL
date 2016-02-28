@@ -1,27 +1,14 @@
-#ifndef LATLNG_H
-#define LATLNG_H
+#ifndef STLWRITER_H
+#define STLWRITER_H
 
-class STL;
+#include <vector>
 
-class LatLng {
-  private:
-    struct triangle{
-      Vector a;
-      Vector b;
-      Vector c;
-      Vector normal;
-    };
-    char endTag[2] = {0,0};
-    ofstream out;
+struct triangle;
 
-    int width = 40;		//default width and length of model
-    int height = 40;
-    vector<float> hList;
-  public:
-    float lat,lng;
-    LatLng (float,float);
-    void print();
-    Vector toCartesian(void);
-};
+Vector normalOf(const Vector&, const Vector&, const Vector&);
+triangle createTriangle(const Vector&, const Vector&, const Vector&);
+void addTriangle(triangle t);
+
+void writeSTLfromArray(const std::vector<float>&, int, int);
 
 #endif
