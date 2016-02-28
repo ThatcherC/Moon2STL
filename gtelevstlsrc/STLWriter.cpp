@@ -10,7 +10,6 @@
 #include <string>
 #include "Vector.h"
 #include "STLWriter.h"
-#include <unistd.h>
 
 using namespace std;
 
@@ -108,7 +107,6 @@ void writeSTLfromArray(const vector<float> &hList, int width, int height){
 		}
 		for(int y = 1; y < height-1; y++){
 			for(int x = 1; x < width; x++){
-				sleep(20);
 				if((int)hList.at(y*width+x)>voidCutoff & (int)hList.at((y-1)*width+x)>voidCutoff & (int)hList.at(y*width+x-1)>voidCutoff ){
 					Vector a(x*xScale,y,hList.at(y*width+x));
 					Vector b(x*xScale,y-1,hList.at((y-1)*width+x));
