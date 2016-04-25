@@ -3,59 +3,66 @@
 #include "gdal_priv.h"
 #include "cpl_conv.h" // for CPLMalloc()
 #include <iostream>
+#include <string>
+#include <fstream>
+
+//g++ -I/usr/include/gdal gdaltest.cpp -lgdal -o gdaltest -std=c++11
 
 using namespace std;
 
-int main()
-{
-    GDALDataset  *poDataset;
-    GDALAllRegister();
-    poDataset = (GDALDataset *) GDALOpen( "ulcn2005_lpo_dd0_2_1.tif", GA_ReadOnly );
-    if( poDataset == NULL )
-    {
-        cout<<"Error";
-    }else{
-      cout<<"No error\n";
-    }
+string currentTile = "none";
+ifstream file;
 
-    printf( "Size is %dx%dx%d\n",
-        poDataset->GetRasterXSize(), poDataset->GetRasterYSize(),
-        poDataset->GetRasterCount() );
+GDALDataset  *poDataset;
+GDALRasterBand  *poBand;
 
-    double adfGeoTransform[6];
-    if( poDataset->GetGeoTransform( adfGeoTransform ) == CE_None )
-    {
-        printf( "Origin = (%.6f,%.6f)\n",
-                adfGeoTransform[0], adfGeoTransform[3] );
-        printf( "Pixel Size = (%.6f,%.6f)\n",
-                adfGeoTransform[1], adfGeoTransform[5] );
-    }
+//For choosing which 960x960 tile to choose from for Mars
+string getTile(int xindex, int yindex){
+  string file = "../tiles/ulcn2005_lpo_dd0_";
+  file.append(to_string(yindex/960+1));
+  file.append("_");
+  file.append(to_string(xindex/960+1));
+  file.append(".tif");
+  return file;
+}
 
-
-    GDALRasterBand  *poBand;
-    int             nBlockXSize, nBlockYSize;
-    int             bGotMin, bGotMax;
-    double          adfMinMax[2];
+float getIndexElevation(int xindex, int yindex){
+  if(currentTile!=getTile(xindex,yindex)){
+    //open new file
+    currentTile = getTile(xindex,yindex);
+    poDataset = (GDALDataset *) GDALOpen( currentTile.c_str(), GA_ReadOnly );
     poBand = poDataset->GetRasterBand( 1 );
-    poBand->GetBlockSize( &nBlockXSize, &nBlockYSize );
-    printf( "Block=%dx%d Type=%s, ColorInterp=%s\n",
-            nBlockXSize, nBlockYSize,
-            GDALGetDataTypeName(poBand->GetRasterDataType()),
-            GDALGetColorInterpretationName(
-                poBand->GetColorInterpretation()) );
-    adfMinMax[0] = poBand->GetMinimum( &bGotMin );
-    adfMinMax[1] = poBand->GetMaximum( &bGotMax );
-    if( ! (bGotMin && bGotMax) )
-        GDALComputeRasterMinMax((GDALRasterBandH)poBand, TRUE, adfMinMax);
-    printf( "Min=%.3fd, Max=%.3f\n", adfMinMax[0], adfMinMax[1] );
+  }
 
-    for(int x=0; x<200;x+=1){
-      double adfPixel[2];
-      if( GDALRasterIO( poBand, GF_Read, 0, x, 1, 1, adfPixel, 1, 1, GDT_CFloat64, 0, 0) == CE_None ){
-        CPLString osValue;
-        printf( "%.15g\n", adfPixel[0] );
-      }
+  double adfPixel[2];
+
+  int iPixelToQuery = xindex-xindex/960*960;
+  int iLineToQuery  = yindex-yindex/960*960;
+  printf("Querying pixel %d on line %d\n",iPixelToQuery,iLineToQuery);
+
+  if( GDALRasterIO( poBand, GF_Read, iPixelToQuery, iLineToQuery, 1, 1, adfPixel, 1, 1, GDT_CFloat64, 0, 0) == CE_None ){
+      CPLString osValue;
+      return (float)adfPixel[0];
+  }
+
+  return 0;
+}
+
+float getElevation(float lat, float lng){
+  float point[4];           //Order: NW, NE, SW, SE
+  for(int y = 0; y<2; y++){
+    for(int x = 0; x<2; x++){
+      point[x+y] = getIndexElevation( floor(lng/.0625)+x, floor(lat/.0625)+y );
     }
+  }
 
+  //TODO: Interpolate
+
+  return point[0];
+}
+
+int main(){
+    GDALRegister_GTiff();
+    cout <<getElevation(80,27);
     return 0;
 }
