@@ -10,7 +10,7 @@
 #include "STLWriter.h"
 #include <vector>
 
-//g++ -I/usr/include/gdal gdaltest.cpp -lgdal -o gdaltest -std=c++11
+//g++ -I/usr/include/gdal moon2stl.cpp -lgdal -o moon2stl -std=c++11 LatLng.cpp Vector.cpp STLWriter.cpp
 
 using namespace std;
 
@@ -22,7 +22,7 @@ GDALRasterBand  *poBand;
 
 //For choosing which 960x960 tile to choose from for Mars
 string getTile(int xindex, int yindex){
-  string file = "../tiles/ulcn2005_lpo_dd0_";
+  string file = "tiles/ulcn2005_lpo_dd0_";
   file.append(to_string(yindex/960+1));
   file.append("_");
   file.append(to_string(xindex/960+1));
@@ -65,8 +65,36 @@ float getElevation(float lat, float lng){
   return point[0];
 }
 
-int main(){
-    GDALRegister_GTiff();
-    cout <<getElevation(80,27);
-    return 0;
+
+//Arguments:
+//swlat,swlng,selat,selng,nwlat,nwlng,width,height,scale
+int main(int argc, char **argv){
+  LatLng sw(atof(argv[1]),atof(argv[2]));
+  LatLng se(atof(argv[3]),atof(argv[4]));
+  LatLng nw(atof(argv[5]),atof(argv[6]));
+  int width = atoi(argv[7]);
+  int height = atoi(argv[8]);
+  float scale = atof(argv[9]);
+
+  clog << "Width: " << width << ", Height: "<<height<<"\n";
+
+  GDALRegister_GTiff();   //load GeoTiff driver
+
+  //TODO: Check division by height and width (elevationgetter.js)
+  Vector incx = se.toCartesian().subtract(sw.toCartesian()).multiply(1.0/width);
+  Vector incy = nw.toCartesian().subtract(sw.toCartesian()).multiply(1.0/height);
+  //var incy = g.vectorMul(g.vectorSubtract(g.sphericalToCartesian(nw),g.sphericalToCartesian(sw)),1/options.height);
+  Vector start = sw.toCartesian();
+
+  vector<float> hList;
+  hList.resize(width*height,0);
+
+  for(int x = 0; x<width; x++){
+    for(int y = 0; y<height; y++){
+      LatLng position = incx.multiply(x).add(incy.multiply(y)).add(start).toSpherical();
+      position.print();
+    }
+  }
+
+  return 0;
 }
