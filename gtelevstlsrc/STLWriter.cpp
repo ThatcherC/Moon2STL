@@ -17,7 +17,6 @@ struct triangle{
 };
 
 
-float globalLat = 0;		//Latitude in radians, used for cosine adjustment
 int voidCutoff = -1000;
 char endTag[2] = {0,0};
 
@@ -71,13 +70,13 @@ void addTriangle(triangle t){
 }
 
 //Takes a height array of variable length and turns it into an STL file
-void writeSTLfromArray(const vector<float> &hList, int width, int height){
+void writeSTLfromArray(const vector<float> &hList, int width, int height, float xScale){
 	uint32_t triangleCount = (width-1)*(height-1)*2;	//number of facets in a void-free surface
 	triangleCount += 4*(width-1);	//triangle counts for the walls of the model
 	triangleCount += 4*(height-1);
 	triangleCount += 2; 			//base triangles
 	float planarScale = 40/width;
-	float xScale = (float)cos(globalLat);
+	xScale = cos(xScale);
 
 	if(cout.good()){
 		for(int i = 0; i < 80; i++){
@@ -86,7 +85,7 @@ void writeSTLfromArray(const vector<float> &hList, int width, int height){
 		//write a placeholder number
 		cout.write((char *)&triangleCount,4);
 
-		for(int c = 1; c < width; c++){
+    for(int c = 1; c < width; c++){
 			if((int)hList.at(c)>voidCutoff & (int)hList.at(c-1)>voidCutoff & (int)hList.at(c+width-1)>voidCutoff ){
 				Vector a(c*xScale, 0,hList.at(c));
 				Vector b((c-1)*xScale, 0,hList.at(c-1));
@@ -113,7 +112,7 @@ void writeSTLfromArray(const vector<float> &hList, int width, int height){
 					Vector c = Vector((x-1)*xScale,y-1,hc);
           Vector d = Vector((x-1)*xScale,y,hd);
 
-          if(abs(hd-hb)>abs(ha-hc)){
+          if(abs(hd-hb)<abs(ha-hc)){
   					addTriangle(createTriangle(a,d,b));
             addTriangle(createTriangle(c,b,d));
           }else{
