@@ -52,7 +52,7 @@ float getElevation(float lat, float lng){
   float point[4];           //Order: NW, NE, SW, SE
   for(int y = 0; y<2; y++){
     for(int x = 0; x<2; x++){
-      point[x+y] = getIndexElevation( floor(lng/.0625)+x, floor(lat/.0625)+y );
+      point[x+y*2] = getIndexElevation( floor(lng/.0625)+x, floor(lat/.0625)+y );
     }
   }
 
