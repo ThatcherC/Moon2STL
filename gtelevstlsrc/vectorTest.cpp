@@ -15,8 +15,20 @@ int main(){
   std::vector<float> d;
   d.push_back(.5);
   d.push_back(.5);
-  d.push_back(.6);
-  d.push_back(.7);
+  d.push_back(.5);
+  d.push_back(.5);
+  d.push_back(.5);
+  d.push_back(.8);
+  d.push_back(.8);
+  d.push_back(.5);
+  d.push_back(.5);
+  d.push_back(.8);
+  d.push_back(.8);
+  d.push_back(.5);
+  d.push_back(.5);
+  d.push_back(.5);
+  d.push_back(.5);
+  d.push_back(.5);
 
-  writeSTLfromArray(d, 2, 2);
+  writeSTLfromArray(d, 4, 4);
 }
