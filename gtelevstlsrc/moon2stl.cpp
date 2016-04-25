@@ -42,7 +42,6 @@ float getIndexElevation(int xindex, int yindex){
 
   int iPixelToQuery = xindex-xindex/960*960;
   int iLineToQuery  = yindex-yindex/960*960;
-  printf("Querying pixel %d on line %d\n",iPixelToQuery,iLineToQuery);
 
   if( GDALRasterIO( poBand, GF_Read, iPixelToQuery, iLineToQuery, 1, 1, adfPixel, 1, 1, GDT_CFloat64, 0, 0) == CE_None ){
       CPLString osValue;
@@ -53,6 +52,8 @@ float getIndexElevation(int xindex, int yindex){
 }
 
 float getElevation(float lat, float lng){
+  lat = 90-lat;
+  lng = lng+180;
   float point[4];           //Order: NW, NE, SW, SE
   for(int y = 0; y<2; y++){
     for(int x = 0; x<2; x++){
@@ -74,7 +75,7 @@ int main(int argc, char **argv){
   LatLng nw(atof(argv[5]),atof(argv[6]));
   int width = atoi(argv[7]);
   int height = atoi(argv[8]);
-  float scale = atof(argv[9]);
+  float scale = atof(argv[9])/1895;
 
   clog << "Width: " << width << ", Height: "<<height<<"\n";
 
@@ -92,9 +93,11 @@ int main(int argc, char **argv){
   for(int x = 0; x<width; x++){
     for(int y = 0; y<height; y++){
       LatLng position = incx.multiply(x).add(incy.multiply(y)).add(start).toSpherical();
-      position.print();
+      hList.at(y*width+x) = getElevation(position.lat,position.lng)*scale;
     }
   }
+
+  writeSTLfromArray(hList,width,height,0);
 
   return 0;
 }
