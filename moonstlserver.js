@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var Concentrate = require("concentrate");
 var GeoTIFF = require("geotiff");
 var fs = require("fs");
+var exec = require('child_process').exec;
 
 var stlStreamer = require("./stlstreamer");
 var elevation = require("./elevationgetter");
@@ -27,7 +28,7 @@ var count = 0;
 
 app.post("/Moon2STL/stl",function(req,res){
   console.time(count);
-  
+
   var c = Concentrate();
   c.on("end", function() {
     res.end();
@@ -49,6 +50,13 @@ app.post("/Moon2STL/stl",function(req,res){
   var nw = {lat:Number(req.body.nwlat), lng:Number(req.body.nwlng)};
 
   var modelOptions = {sw:sw, se:se, nw:nw, width:width, height:height, scale:req.body.scale};
+  console.log("./gtelevstlsrc/moon2stl "+sw.lat+" "+sw.lng+" "+se.lat+" "+se.lng+" "+nw.lat+" "+nw.lng+" "+width+" "+height+" "+req.body.scale);
+  exec("./gtelevstlsrc/moon2stl "+sw.lat+" "+sw.lng+" "+se.lat+" "+se.lng+" "+nw.lat+" "+nw.lng+" "+width+" "+height+" "+req.body.scale+" > test.stl",
+      function(error,stdout,stderr){
+        console.log(stdout);
+        console.log(error);
+        console.log(stderr);
+      });
 
   elevation.getElevations(modelOptions,image,c,function(stream,elevations){
     elevationData = {xlen:width, ylen:height, scale:1/1895, values: elevations};
