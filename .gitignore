@@ -5,3 +5,5 @@ gtelevstlsrc/gdaltest
 gtelevstlsrc/test.stl
 test.stl
 gtelevstlsrc/vtest
+gtelevstlsrc/wc
+node_modules/*
