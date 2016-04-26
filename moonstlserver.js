@@ -16,7 +16,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 var count = 0;
 
 app.post("/Moon2STL/stl",function(req,res){
-  console.time(1);
 
   //Had a realllllly interesting bug here for awhile because it turns out that
   //JavaScript yields "10"*3 = 30, but "10"+3 = '103'
@@ -29,14 +28,15 @@ app.post("/Moon2STL/stl",function(req,res){
 
   var modelOptions = {sw:sw, se:se, nw:nw, width:width, height:height, scale:req.body.scale};
   //console.log("./gtelevstlsrc/moon2stl "+sw.lat+" "+sw.lng+" "+se.lat+" "+se.lng+" "+nw.lat+" "+nw.lng+" "+width+" "+height+" "+req.body.scale);
-  exec("./gtelevstlsrc/moon2stl "+sw.lat+" "+sw.lng+" "+se.lat+" "+se.lng+" "+nw.lat+" "+nw.lng+" "+width+" "+height+" "+req.body.scale+" > test.stl",
+  var name = "moon-"+count+".stl";
+  exec("./gtelevstlsrc/moon2stl "+sw.lat+" "+sw.lng+" "+se.lat+" "+se.lng+" "+nw.lat+" "+nw.lng+" "+width+" "+height+" "+req.body.scale+" > "+name,
       function(error,stdout,stderr){
-        console.timeEnd(1);
         console.log(stdout);
         console.log(error);
         console.log(stderr);
-        res.download(path.resolve("test.stl"));
+        res.download(path.resolve(name));
       });
+  count++;
 });
 
 app.listen(9000);
