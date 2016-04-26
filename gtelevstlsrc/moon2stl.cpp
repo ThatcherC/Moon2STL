@@ -90,11 +90,20 @@ int main(int argc, char **argv){
   vector<float> hList;
   hList.resize(width*height,0);
 
+  float minElevation = 100000;
+
   for(int x = 0; x<width; x++){
     for(int y = 0; y<height; y++){
       LatLng position = incx.multiply(x).add(incy.multiply(y)).add(start).toSpherical();
       hList.at(y*width+x) = getElevation(position.lat,position.lng)*scale;
+      if(hList.at(y*width+x)<minElevation){
+        minElevation = hList.at(y*width+x);
+      }
     }
+  }
+
+  for(int c = 0; c<width*height; c++){
+    hList.at(c) = hList.at(c) - minElevation +2;
   }
 
   writeSTLfromArray(hList,width,height,0);
