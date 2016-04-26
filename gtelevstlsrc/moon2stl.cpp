@@ -31,6 +31,19 @@ string getTile(int xindex, int yindex){
 }
 
 float getIndexElevation(int xindex, int yindex){
+  if(xindex<0){
+    xindex += 5760;
+  }
+  if(xindex>=5760){
+    xindex -= 5760;
+  }
+  if(yindex<0){
+    yindex += 2880;
+  }
+  if(yindex>=2880){
+    yindex -= 2880;
+  }
+
   if(currentTile!=getTile(xindex,yindex)){
     //open new file
     currentTile = getTile(xindex,yindex);
