@@ -1,6 +1,11 @@
 # Moon2STL
 Produces STL files from GeoTIFF elevation maps
 
+Requirements: `libgdal-dev`. Easy to install on Ubuntu with:
+```
+$ sudo apt install libgdal-dev
+```
+
 ####To-Do List
 
 - [x] Put walls on the STLs
