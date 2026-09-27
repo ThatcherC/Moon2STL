@@ -9,6 +9,7 @@
 #include "Vector.h"
 #include "STLWriter.h"
 #include <vector>
+#include <climits>
 
 //g++ -I/usr/include/gdal moon2stl.cpp -lgdal -o moon2stl -std=c++11 LatLng.cpp Vector.cpp STLWriter.cpp
 
@@ -89,6 +90,11 @@ int main(int argc, char **argv){
   int width = atoi(argv[7]);
   int height = atoi(argv[8]);
   float scale = atof(argv[9])/1895;
+
+  if(width <= 0 || height <= 0 || static_cast<long long>(width) * height > INT_MAX){
+    cerr << "Invalid width/height: must be positive and their product must not overflow\n";
+    return 1;
+  }
 
   clog << "Width: " << width << ", Height: "<<height<<"\n";
 
