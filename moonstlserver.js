@@ -28,7 +28,7 @@ app.post("/Moon2STL/stl",function(req,res){
 
   var modelOptions = {sw:sw, se:se, nw:nw, width:width, height:height, scale:req.body.scale};
   //console.log("./gtelevstlsrc/moon2stl "+sw.lat+" "+sw.lng+" "+se.lat+" "+se.lng+" "+nw.lat+" "+nw.lng+" "+width+" "+height+" "+req.body.scale);
-  var name = "moon-"+count+".stl";
+  var name = "stls/moon-"+count+".stl";
   exec("./gtelevstlsrc/moon2stl "+sw.lat+" "+sw.lng+" "+se.lat+" "+se.lng+" "+nw.lat+" "+nw.lng+" "+width+" "+height+" "+req.body.scale+" > "+name,
       function(error,stdout,stderr){
         console.log(stdout);
